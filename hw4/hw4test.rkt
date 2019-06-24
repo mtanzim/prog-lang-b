@@ -20,7 +20,10 @@
    "Sample tests for Assignment 4"
    
    ; sequence test
-   (check-equal? (sequence 0 5 1) (list 0 1 2 3 4 5) "Sequence test")
+   (check-equal? (sequence 0 5 1) (list 0 1 2 3 4 5) "Sequence test 1")
+   (check-equal? (sequence 3 11 2) (list 3 5 7 9 11) "Sequence test 2")
+   (check-equal? (sequence 3 2 1) (list ) "Sequence test 3")
+   
 
    ; string-append-map test
    (check-equal? (string-append-map 
