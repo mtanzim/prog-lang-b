@@ -10,6 +10,7 @@
 ;; define some streams
 
 ;(define ones-really-bad (cons 1 ones-really-bad))
+;;; creates an infinite loop, because ones-bad is calling the thunk 
 (define ones-bad (lambda () (cons 1 (ones-bad))))
 
 (define ones (lambda () (cons 1 ones)))
