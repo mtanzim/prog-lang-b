@@ -14,3 +14,24 @@
 (define (string-append-map xs suffix)
     (map (lambda (i) (string-append i suffix)) xs)
 )
+
+(define (list-nth-mod xs num)
+  (define (helper cur-xs cur-count) 
+            (if (null? cur-xs)
+                (error "list-nth-mod: not found")
+                (if (< (car cur-xs) 0)
+                    (error "list-nth-mod: negative number")
+                    (if (= (car cur-xs) num) ;; edit this line to complete!
+                        cur-count
+                        (helper (cdr cur-xs) (+ cur-count 1))
+
+                )   
+                    )
+             )
+          )
+    (if (= (length xs) 0)
+
+        (error "list-nth-mod: empty list")
+        (helper xs 0)
+        )
+)
