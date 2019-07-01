@@ -21,14 +21,10 @@
                 (error "list-nth-mod: not found")
                 (if (< (car cur-xs) 0)
                     (error "list-nth-mod: negative number")
-                    (if (= (car cur-xs) num) ;; edit this line to complete!
-                        cur-count
-                        (helper (cdr cur-xs) (+ cur-count 1))
-
-                )   
-                    )
-             )
-          )
+                    (if (= (remainder num (length xs)) cur-count)
+                        (car cur-xs)
+                        (helper (cdr cur-xs) (+ cur-count 1))))))
+               
     (if (= (length xs) 0)
 
         (error "list-nth-mod: empty list")
