@@ -16,18 +16,17 @@
 )
 
 (define (list-nth-mod xs num)
-  (define (helper cur-xs cur-count) 
+  
+  (define (helper cur-xs cur-count)
             (if (null? cur-xs)
                 (error "list-nth-mod: not found")
-                (if (< (car cur-xs) 0)
-                    (error "list-nth-mod: negative number")
-                    (if (= (remainder num (length xs)) cur-count)
-                        (car cur-xs)
-                        (helper (cdr cur-xs) (+ cur-count 1))))))
+                (if (= (remainder num (length xs)) cur-count)
+                    (car cur-xs)
+                    (helper (cdr cur-xs) (+ cur-count 1)))))
                
     (if (= (length xs) 0)
-
         (error "list-nth-mod: empty list")
-        (helper xs 0)
-        )
+        (if (< num 0)
+            (error "list-nth-mod: negative number")
+            (helper xs 0)))
 )
