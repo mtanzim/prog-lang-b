@@ -13,6 +13,12 @@
 
 ;; Helper functions
 (define ones (lambda () (cons 1 ones)))
+(define powers-of-two
+  (letrec ([f (lambda (x) (cons x (lambda () (f (* x 2)))))])
+    (lambda () (f 2))))
+
+
+
 (define a 2)
 
 (define tests
@@ -39,7 +45,10 @@
     (check-equal? (list-nth-mod (list 45 56 66 63 2344) 6) 56 "list-nth-mod test")
    
    ; stream-for-n-steps test
-   ;(check-equal? (stream-for-n-steps ones 2) (list 1 1) "stream-for-n-steps test")
+   (check-equal? (stream-for-n-steps ones 2) (list 1 1) "stream-for-n-steps test")
+   (check-equal? (stream-for-n-steps ones 1) (list 1) "stream-for-n-steps test")
+   (check-equal? (stream-for-n-steps ones 0) '() "stream-for-n-steps test")
+   (check-equal? (stream-for-n-steps powers-of-two 4) (list 2 4 8 16) "stream-for-n-steps test")
    
    ; funny-number-stream test
    ;(check-equal? (stream-for-n-steps funny-number-stream 16) (list 1 2 3 4 -5 6 7 8 9 -10 11 12 13 14 -15 16) "funny-number-stream test")
