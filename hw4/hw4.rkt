@@ -9,6 +9,21 @@
   (letrec ([f (lambda (x) (cons x (lambda () (f (* x 2)))))])
     (lambda () (f 2))))
 
+(define (funny-helper x)
+  (if (= (remainder x 5) 0)
+      (* -1 x)
+      x))
+
+(define (stream-maker fn arg helper)
+  (letrec ([f (lambda (x) 
+                (cons (helper x) (lambda () (f (fn x arg)))))])
+    (lambda () (f arg))))
+
+(define funny-number-stream (stream-maker + 1 funny-helper))
+
+(define powers2 (stream-maker * 2 (lambda (x) x) ))
+
+
 (define (sequence low high stride)
     (if (> low high) 
         null
