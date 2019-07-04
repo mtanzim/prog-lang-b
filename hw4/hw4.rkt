@@ -3,27 +3,19 @@
 
 (provide (all-defined-out)) ;; so we can put tests in a second file
 
-;; put your code below
+
+;; helper functions
 (define ones (lambda () (cons 1 ones)))
 (define powers-of-two
   (letrec ([f (lambda (x) (cons x (lambda () (f (* x 2)))))])
     (lambda () (f 2))))
-
-(define (funny-helper x)
-  (if (= (remainder x 5) 0)
-      (* -1 x)
-      x))
-
 (define (stream-maker fn arg helper)
   (letrec ([f (lambda (x) 
                 (cons (helper x) (lambda () (f (fn x arg)))))])
     (lambda () (f arg))))
-
-(define funny-number-stream (stream-maker + 1 funny-helper))
-
 (define powers2 (stream-maker * 2 (lambda (x) x) ))
 
-
+;; put your code below
 (define (sequence low high stride)
     (if (> low high) 
         null
@@ -51,3 +43,14 @@
         cur-xs
         (helper (append cur-xs (list(car (cur-s))) ) (+ 1 cur-count)  (cdr (cur-s))  )))
   (helper  '() 0 s))
+
+
+(define funny-number-stream (stream-maker + 1 (lambda (x)
+  (if (= (remainder x 5) 0)
+      (* -1 x)
+      x))))
+
+(define dan-then-dog (stream-maker + 1 (lambda (x)
+  (if (= (remainder x 2) 0)
+      "dog.jpg"
+      "dan.jpg"))))
