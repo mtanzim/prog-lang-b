@@ -9,11 +9,7 @@
 (define powers-of-two
   (letrec ([f (lambda (x) (cons x (lambda () (f (* x 2)))))])
     (lambda () (f 2))))
-(define (stream-maker fn arg helper)
-  (letrec ([f (lambda (x) 
-                (cons (helper x) (lambda () (f (fn x arg)))))])
-    (lambda () (f arg))))
-(define powers2 (stream-maker * 2 (lambda (x) x) ))
+
 
 ;; put your code below
 (define (sequence low high stride)
@@ -37,6 +33,12 @@
           (error "list-nth-mod: negative number")
           (helper xs 0))))
 
+(define (stream-maker fn arg helper)
+  (letrec ([f (lambda (x) 
+                (cons (helper x) (lambda () (f (fn x arg)))))])
+    (lambda () (f arg))))
+;(define powers2 (stream-maker * 2 (lambda (x) x) ))
+
 (define (stream-for-n-steps s n)
   (define (helper cur-xs cur-count cur-s)
     (if (= cur-count n)
@@ -54,3 +56,6 @@
   (if (= (remainder x 2) 0)
       "dog.jpg"
       "dan.jpg"))))
+
+(define (stream-add-zero s)
+  (lambda () (cons (cons 0 (car (s))) (stream-add-zero (cdr (s))))))
