@@ -77,9 +77,28 @@
 
 (define (cached-assoc xs n)
   (letrec ([memo (make-vector n #f)]
-  [f (lambda (v) (assoc v xs))])
+           [cur-pos 0]
+  [f (lambda (v)
+       (if (not (vector-assoc v memo))
+           (let ([new-ans (assoc v xs)])
+             (begin
+               (if new-ans
+                   (begin
+                     (vector-set! memo cur-pos new-ans)
+                     (if (= cur-pos n)
+                         (set! cur-pos (+ 1 cur-pos))
+                         (set! cur-pos 0))
+                     ;(writeln cur-pos)
+                     ;(writeln memo)
+                     new-ans
+                     )
+                   (begin
+                     new-ans))
+             ))
+           (vector-assoc v memo))
+       )])
   f
-  ))
+    ))
   
         
   
