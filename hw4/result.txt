@@ -1,0 +1,6 @@
+while-less: Macro terminates with #t as result (do: bad syntax   in: do) [error]
+while-less: Evaluates e2 the correct number of times (do: bad syntax   in: do) [error]
+while-less: Evaluates e1 only once (do: bad syntax   in: do) [error]
+cached-assoc: Full caching implementation (cache slot 1 should be used for the 2 cache miss in a cache of size 3) [incorrect answer]
+
+Because the auto-grader gave a score above 80, here is the link to a message from a very cute dog: https://drive.google.com/file/d/0B5sUgbs6aDNpSWhSZzVtcktDaTA/view?pref=2&pli=1
