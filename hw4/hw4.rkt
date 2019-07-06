@@ -74,5 +74,12 @@
               (vector-ref  vec cur-i)
               (helper (+ cur-i 1))))))
   (helper 0))
+
+(define (cached-assoc xs n)
+  (letrec ([memo (make-vector n #f)]
+  [f (lambda (v) (assoc v xs))])
+  f
+  ))
+  
         
   
