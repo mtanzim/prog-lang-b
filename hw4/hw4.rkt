@@ -64,5 +64,15 @@
   (letrec ([f (lambda (x) 
                 (cons (cons (list-nth-mod xs x) (list-nth-mod ys x)) (lambda () (f (+ 1 x)))))])
     (lambda () (f 0))))
-  
+
+(define (vector-assoc v vec)
+  (define (helper cur-i)
+    (if (= cur-i (vector-length vec))
+        #f
+        (begin
+          (if (and (pair? (vector-ref vec cur-i)) (equal? (car (vector-ref vec cur-i)) v) )
+              (vector-ref  vec cur-i)
+              (helper (+ cur-i 1))))))
+  (helper 0))
+        
   
