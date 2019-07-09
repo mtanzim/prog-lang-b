@@ -33,7 +33,8 @@
 (define (eval-exp-wrong e)
   (cond [(const? e) 
          e] 
-        [(negate? e) 
+        [(negate? e)
+            ;;; can't assume eval-exp produces a const
          (const (- (const-int (eval-exp-wrong (negate-e1 e)))))]
         [(add? e) 
          (let ([i1 (const-int (eval-exp-wrong (add-e1 e)))]
