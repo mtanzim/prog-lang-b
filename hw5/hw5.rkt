@@ -26,10 +26,8 @@
   (define (f cur-rkt-list cur-list)
     (if (null? cur-rkt-list)
         cur-list
-        (if (null? (cdr cur-rkt-list))
-                   (f (cdr cur-rkt-list)  (apair cur-list (aunit)) )
-                   (f (cdr cur-rkt-list) (apair cur-list (car cur-rkt-list)   )))))
-  (f rkt-lst (aunit)))
+        (f (cdr cur-rkt-list) (apair (car cur-rkt-list) cur-list))))
+  (f (reverse rkt-lst) (aunit)))
   
 
 ;; Problem 2
