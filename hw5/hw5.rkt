@@ -22,7 +22,15 @@
 
 ;; Problem 1
 
-;; CHANGE (put your solutions here)
+(define (racketlist->mupllist rkt-lst)
+  (define (f cur-rkt-list cur-list)
+    (if (null? cur-rkt-list)
+        cur-list
+        (if (null? (cdr cur-rkt-list))
+                   (f (cdr cur-rkt-list)  (apair cur-list (aunit)) )
+                   (f (cdr cur-rkt-list) (apair cur-list (car cur-rkt-list)   )))))
+  (f rkt-lst (aunit)))
+  
 
 ;; Problem 2
 
