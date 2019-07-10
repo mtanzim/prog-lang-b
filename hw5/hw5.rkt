@@ -22,15 +22,25 @@
 
 ;; Problem 1
 
+;;; (define (racketlist->mupllist rkt-lst)
+  ;;; (define (f cur-rkt-list cur-list)
+    ;;; (if (null? cur-rkt-list)
+        ;;; cur-list
+        ;;; (f (cdr cur-rkt-list) (apair (car cur-rkt-list) cur-list))))
+  ;;; (f (reverse rkt-lst) (aunit)) )
+
 (define (racketlist->mupllist rkt-lst)
-  (define (f cur-rkt-list cur-list)
-    (if (null? cur-rkt-list)
-        cur-list
-        (f (cdr cur-rkt-list) (apair (car cur-rkt-list) cur-list))))
-  (f (reverse rkt-lst) (aunit)))
-  
+  (cond [(null? rkt-lst) (aunit)]
+        [(list? rkt-lst) (apair (car rkt-lst) (racketlist->mupllist (cdr rkt-lst)))]
+        [#t "error"]))
 
 ;; Problem 2
+
+(define (mupllist->racketlist mupl-lst)
+  (cond [(aunit? mupl-lst) null]
+        [(apair? mupl-lst) (cons (apair-e1 mupl-lst) (mupllist->racketlist (apair-e2 mupl-lst)))]
+        [#t "error"]
+        ))
 
 ;; lookup a variable in an environment
 ;; Do NOT change this function
@@ -55,6 +65,10 @@
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
+        [(fst? e)
+         42]
+        [(snd? e)
+         43]
         [#t (error (format "bad MUPL expression: ~v" e))]))
 
 ;; Do NOT change
