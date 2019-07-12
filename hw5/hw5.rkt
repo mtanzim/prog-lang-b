@@ -56,7 +56,8 @@
 (define (eval-under-env e env)
   (cond [(var? e) 
          (envlookup env (var-string e))]
-        [(add? e) 
+        [(int? e) e]
+        [(add? e)
          (let ([v1 (eval-under-env (add-e1 e) env)]
                [v2 (eval-under-env (add-e2 e) env)])
            (if (and (int? v1)
