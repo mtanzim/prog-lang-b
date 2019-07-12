@@ -103,15 +103,22 @@
         [(call? e)
          (if (closure? (call-funexp e))
              (letrec ([cur-fun-name (fun-nameopt (closure-fun (call-funexp e)))]
-                      [cur-fun-arg (fun-formal (closure-fun (call-funexp e)))]
+                      [cur-fun-arg-name (fun-formal (closure-fun (call-funexp e)))]
+                      [cur-fun-arg-val (eval-under-env (call-actual e) env)]
                       [cur-fun-body (fun-body (closure-fun (call-funexp e)))]
-                      [start-fun-env (closure-env (call-funexp e))]
-                      )
-                      (
-                       (writeln cur-fun-name)
-                       (writeln cur-fun-arg)
+                      [start-fun-env (cons (cons cur-fun-arg-name cur-fun-arg-val) (closure-env (call-funexp e)))]
+                      [ext-fun-env (if (not cur-fun-name )
+                                       start-fun-env
+                                       (cons start-fun-env (cons cur-fun-name (closure-fun (call-funexp e))))
+                                       )])
+                      ((writeln cur-fun-name)
+                       (writeln cur-fun-arg-name)
+                       (writeln cur-fun-arg-val)
                        (writeln cur-fun-body)
                        (writeln start-fun-env)
+                       (writeln ext-fun-env)
+   
+                       
                        
 
                        ))
