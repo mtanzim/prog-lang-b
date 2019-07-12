@@ -143,14 +143,17 @@
   (if (aunit? e1) e2 e3))
 
 (define (mlet* lstlst e2)
-  (define (iter-lst cur-lst cur-env)
-    (writeln cur-env)
-    (if (null? cur-lst)
-        cur-env
-        (iter-lst (cdr cur-lst) (cons cur-env (cons  (car (car cur-lst)) (cdr (car cur-lst))) ))))
-  (iter-lst lstlst null)
+  (if (null? lstlst)
+      e2
+      (mlet (car (car lstlst)) (cdr (car lstlst)) (mlet* (cdr lstlst) e2))))
+  ;(define (iter-lst cur-lst cur-env)
+   ; (writeln cur-env)
+    ;(if (null? cur-lst)
+     ;   cur-env
+      ;  (iter-lst (cdr cur-lst) (cons cur-env (cons  (car (car cur-lst)) (cdr (car cur-lst))) ))))
+  ;(iter-lst lstlst null)
 
-  )
+  
     
 
 (define (ifeq e1 e2 e3 e4) "CHANGE")
