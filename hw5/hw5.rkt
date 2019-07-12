@@ -34,16 +34,16 @@
         [(list? rkt-lst) (apair (car rkt-lst) (racketlist->mupllist (cdr rkt-lst)))]
         [#t "error"]))
 
-;; Problem 2
-
 (define (mupllist->racketlist mupl-lst)
   (cond [(aunit? mupl-lst) null]
         [(apair? mupl-lst) (cons (apair-e1 mupl-lst) (mupllist->racketlist (apair-e2 mupl-lst)))]
         [#t "error"]
         ))
 
+;; Problem 2
 ;; lookup a variable in an environment
 ;; Do NOT change this function
+;; env is a racket list[str, MUPL-val]
 (define (envlookup env str)
   (cond [(null? env) (error "unbound variable during evaluation" str)]
         [(equal? (car (car env)) str) (cdr (car env))]
@@ -56,7 +56,6 @@
 (define (eval-under-env e env)
   (cond [(var? e) 
          (envlookup env (var-string e))]
-        [(int? e) e]
         [(add? e)
          (let ([v1 (eval-under-env (add-e1 e) env)]
                [v2 (eval-under-env (add-e2 e) env)])
@@ -66,11 +65,21 @@
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
+        [(int? e) e]
+        [(mlet? e)
+         (letrec ([cur-var (mlet-var e)]
+               [var-val (eval-under-env (mlet-e e) env)]
+               [cur-env (cons (cons cur-var var-val) env)]
+               )
+           ;(writeln cur-var)
+           ;(writeln var-val)
+           ;(writeln cur-env)
+           (eval-under-env (mlet-body e) cur-env))]
         [(ifgreater? e)
          (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
               [v2 (eval-under-env (ifgreater-e2 e) env)])
-              (writeln v1)
-              (writeln v2)
+              ;(writeln v1)
+              ;(writeln v2)
               (if (and (int? v1)
                     (int? v2))
                (if (> (int-num v1) (int-num v2))
