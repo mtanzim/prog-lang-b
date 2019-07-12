@@ -24,7 +24,9 @@
    
    ;; mlet test
    (check-equal? (eval-exp (mlet "x" (int 1) (add (int 5) (var "x")))) (int 6) "mlet test")
-   
+
+   ;; apair test
+   (check-equal? (eval-exp (apair (mlet "x" (int 1) (add (int 5) (var "x"))) (int 10))) (apair (int 6) (int 10)) "apair test")
    ;; call test
    ;; (check-equal? (eval-exp (call (closure '() (fun #f "x" (add (var "x") (int 7)))) (int 1))) (int 8) "call test")
    

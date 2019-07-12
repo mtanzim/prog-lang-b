@@ -66,6 +66,12 @@
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
         [(int? e) e]
+        [(apair? e)
+         (let ([v1 (eval-under-env (apair-e1 e) env)]
+               [v2 (eval-under-env (apair-e2 e) env)])
+           ;(writeln v1)
+           ;(writeln v2)
+           (apair v1 v2))]
         [(mlet? e)
          (letrec ([cur-var (mlet-var e)]
                [var-val (eval-under-env (mlet-e e) env)]
