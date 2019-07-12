@@ -100,6 +100,22 @@
            ;(writeln var-val)
            ;(writeln cur-env)
            (eval-under-env (mlet-body e) cur-env))]
+        [(call? e)
+         (if (closure? (call-funexp e))
+             (letrec ([cur-fun-name (fun-nameopt (closure-fun (call-funexp e)))]
+                      [cur-fun-arg (fun-formal (closure-fun (call-funexp e)))]
+                      [cur-fun-body (fun-body (closure-fun (call-funexp e)))]
+                      [start-fun-env (closure-env (call-funexp e))]
+                      )
+                      (
+                       (writeln cur-fun-name)
+                       (writeln cur-fun-arg)
+                       (writeln cur-fun-body)
+                       (writeln start-fun-env)
+                       
+
+                       ))
+             (error "Not a closure!"))]
         [(ifgreater? e)
          (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
               [v2 (eval-under-env (ifgreater-e2 e) env)])

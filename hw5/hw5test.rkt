@@ -27,8 +27,7 @@
 
    ;; apair test
    (check-equal? (eval-exp (apair (mlet "x" (int 1) (add (int 5) (var "x"))) (int 10))) (apair (int 6) (int 10)) "apair test")
-   ;; call test
-   ;; (check-equal? (eval-exp (call (closure '() (fun #f "x" (add (var "x") (int 7)))) (int 1))) (int 8) "call test")
+   
 
    ;; fst test
    (check-equal? (eval-exp (fst (apair (mlet "x" (int 1) (add (int 5) (var "x"))) (int 10)))) (int 6) "fst test")
@@ -40,6 +39,9 @@
    (check-equal? (eval-exp (isaunit (snd (apair (int 1) (aunit))))) (int 1) "isanit test")
    (check-equal? (eval-exp (isaunit (snd (apair (int 1) (int 45))))) (int 0) "isanit test")
    ;(check-equal? (eval-exp (isaunit (closure '() (fun #f "x" (aunit))))) (int 0) "isaunit test")
+
+   ;; call test
+   (check-equal? (eval-exp (call (closure '() (fun #f "x" (add (var "x") (int 7)))) (int 1))) (int 8) "call test")
    
    ;; ifaunit test
    ;; (check-equal? (eval-exp (ifaunit (int 1) (int 2) (int 3))) (int 3) "ifaunit test")
