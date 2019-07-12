@@ -131,10 +131,6 @@
                    (eval-under-env (ifgreater-e3 e) env)
                     (eval-under-env (ifgreater-e4 e) env))
                (error "MUPL if-greater applied to non-number")))]
-        [(fst? e)
-         42]
-        [(snd? e)
-         43]
         [#t (error (format "bad MUPL expression: ~v" e))]))
 
 ;; Do NOT change
@@ -143,9 +139,19 @@
         
 ;; Problem 3
 
-(define (ifaunit e1 e2 e3) "CHANGE")
+(define (ifaunit e1 e2 e3)
+  (if (aunit? e1) e2 e3))
 
-(define (mlet* lstlst e2) "CHANGE")
+(define (mlet* lstlst e2)
+  (define (iter-lst cur-lst cur-env)
+    (writeln cur-env)
+    (if (null? cur-lst)
+        cur-env
+        (iter-lst (cdr cur-lst) (cons cur-env (cons  (car (car cur-lst)) (cdr (car cur-lst))) ))))
+  (iter-lst lstlst null)
+
+  )
+    
 
 (define (ifeq e1 e2 e3 e4) "CHANGE")
 
