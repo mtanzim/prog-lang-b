@@ -72,6 +72,18 @@
            ;(writeln v1)
            ;(writeln v2)
            (apair v1 v2))]
+        [(fst? e)
+         (let ([v1 (eval-under-env (fst-e e) env)])
+           ;(writeln v1)
+           (if (apair? v1)
+               (apair-e1 v1)
+               (error "Not a pair")))]
+        [(snd? e)
+         (let ([v1 (eval-under-env (snd-e e) env)])
+           ;(writeln v1)
+           (if (apair? v1)
+               (apair-e2 v1)
+               (error "Not a pair")))]
         [(mlet? e)
          (letrec ([cur-var (mlet-var e)]
                [var-val (eval-under-env (mlet-e e) env)]
