@@ -66,6 +66,7 @@
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
         [(int? e) e]
+        [(aunit? e) (aunit)]
         [(apair? e)
          (let ([v1 (eval-under-env (apair-e1 e) env)]
                [v2 (eval-under-env (apair-e2 e) env)])
@@ -78,6 +79,12 @@
            (if (apair? v1)
                (apair-e1 v1)
                (error "Not a pair")))]
+        [(isaunit? e)
+         (let ([v1 (eval-under-env (isaunit-e e) env)])
+           ;(writeln v1)
+           (if (aunit? v1)
+               (int 1)
+               (int 0)))]
         [(snd? e)
          (let ([v1 (eval-under-env (snd-e e) env)])
            ;(writeln v1)
