@@ -66,6 +66,7 @@
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
         [(int? e) e]
+        [(fun? e) e]
         [(aunit? e) (aunit)]
         [(apair? e)
          (let ([v1 (eval-under-env (apair-e1 e) env)]
@@ -94,7 +95,7 @@
         [(mlet? e)
          (letrec ([cur-var (mlet-var e)]
                [var-val (eval-under-env (mlet-e e) env)]
-               [cur-env (cons (cons cur-var var-val) env)]
+               [cur-env (cons (cons cur-var var-val) env )]
                )
            ;(writeln cur-var)
            ;(writeln var-val)
@@ -109,19 +110,15 @@
                       [start-fun-env (cons (cons cur-fun-arg-name cur-fun-arg-val) (closure-env (call-funexp e)))]
                       [ext-fun-env (if (not cur-fun-name )
                                        start-fun-env
-                                       (cons start-fun-env (cons cur-fun-name (closure-fun (call-funexp e))))
+                                       (append start-fun-env (cons cur-fun-name (closure-fun (call-funexp e)))  )
                                        )])
-                      ((writeln cur-fun-name)
-                       (writeln cur-fun-arg-name)
-                       (writeln cur-fun-arg-val)
-                       (writeln cur-fun-body)
-                       (writeln start-fun-env)
-                       (writeln ext-fun-env)
-   
-                       
-                       
-
-                       ))
+               ;(writeln cur-fun-name)
+               ;(writeln cur-fun-arg-name)
+               ;(writeln cur-fun-arg-val)
+               ;(writeln cur-fun-body)
+               ;(writeln start-fun-env)
+               ;(writeln ext-fun-env)
+               (eval-under-env cur-fun-body ext-fun-env))
              (error "Not a closure!"))]
         [(ifgreater? e)
          (let ([v1 (eval-under-env (ifgreater-e1 e) env)]

@@ -42,6 +42,7 @@
 
    ;; call test
    (check-equal? (eval-exp (call (closure '() (fun #f "x" (add (var "x") (int 7)))) (int 1))) (int 8) "call test")
+   (check-equal? (eval-exp (call (closure '() (fun "my-fun" "x" (add (var "x") (int 7)))) (int 1))) (int 8) "call test 2")
    
    ;; ifaunit test
    ;; (check-equal? (eval-exp (ifaunit (int 1) (int 2) (int 3))) (int 3) "ifaunit test")
