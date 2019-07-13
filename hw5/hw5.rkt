@@ -104,16 +104,17 @@
            ;(writeln cur-env)
            (eval-under-env (mlet-body e) cur-env))]
         [(call? e)
-         (if (closure? (eval-under-env (call-funexp e) env))
-             (letrec ([cur-fun-name (fun-nameopt (closure-fun (call-funexp e)))]
-                      [cur-fun-arg-name (fun-formal (closure-fun (call-funexp e)))]
-                      [cur-fun-arg-val (eval-under-env (call-actual e) env)]
-                      [cur-fun-body (fun-body (closure-fun (call-funexp e)))]
-                      [start-fun-env (cons (cons cur-fun-arg-name cur-fun-arg-val) (closure-env (call-funexp e)))]
-                      [ext-fun-env (if (not cur-fun-name )
-                                       start-fun-env
-                                       (append start-fun-env (cons cur-fun-name (closure-fun (call-funexp e)))  )
-                                       )])
+         (let ([fun-exp (eval-under-env (call-funexp e) env)]
+               [fun-arg-val (eval-under-env (call-actual e) env)])    
+           (if (closure? fun-exp)
+               (letrec ([cur-fun-name (fun-nameopt (closure-fun fun-exp))]
+                        [cur-fun-arg-name (fun-formal (closure-fun fun-exp))]
+                        [cur-fun-body (fun-body (closure-fun fun-exp))]
+                        [start-fun-env (cons (cons cur-fun-arg-name fun-arg-val) (closure-env fun-exp))]
+                        [ext-fun-env (if (not cur-fun-name )
+                                         start-fun-env
+                                         (append start-fun-env (cons cur-fun-name (closure-fun fun-exp))  )
+                                         )])
                ;(writeln cur-fun-name)
                ;(writeln cur-fun-arg-name)
                ;(writeln cur-fun-arg-val)
@@ -121,7 +122,7 @@
                ;(writeln start-fun-env)
                ;(writeln ext-fun-env)
                (eval-under-env cur-fun-body ext-fun-env))
-             (error "Not a closure!"))]
+             (error "Not a closure!")))]
         [(ifgreater? e)
          (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
               [v2 (eval-under-env (ifgreater-e2 e) env)])
