@@ -168,8 +168,10 @@
 
 ;; Problem 4
 
-(define (mupl-map cur-fun)
-   cur-fun)
+(define mupl-map
+   (fun #f "x" (
+                fun #f "y"
+                 (int 42) )))
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
