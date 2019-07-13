@@ -113,14 +113,16 @@
                         [start-fun-env (cons (cons cur-fun-arg-name fun-arg-val) (closure-env fun-exp))]
                         [ext-fun-env (if (not cur-fun-name )
                                          start-fun-env
-                                         (append start-fun-env (cons cur-fun-name (closure-fun fun-exp))  )
+                                         (cons (cons cur-fun-name (closure-fun fun-exp)) start-fun-env  )
                                          )])
-               ;(writeln cur-fun-name)
+                 (writeln "CALLING")
+                 (writeln cur-fun-name)
                ;(writeln cur-fun-arg-name)
-               ;(writeln cur-fun-arg-val)
+               ;(writeln fun-arg-val)
                ;(writeln cur-fun-body)
                ;(writeln start-fun-env)
-               ;(writeln ext-fun-env)
+               (writeln ext-fun-env)
+                 (writeln "")
                (eval-under-env cur-fun-body ext-fun-env))
              (error "Not a closure!")))]
         [(ifgreater? e)
@@ -169,9 +171,10 @@
 ;; Problem 4
 
 (define mupl-map
-   (fun #f "x" (
-                fun #f "y"
-                 (int 42) )))
+               (fun #f "fx" (
+                            fun "map" "lstlst"
+                                (ifaunit (var "lstlst") (var "lstlst")
+                                    (apair (call (var "fx") (fst (var "lstlst"))) (call (var "map") (snd (var "lstlst")) )) ))))
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
