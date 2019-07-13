@@ -66,7 +66,9 @@
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
         [(int? e) e]
-        [(fun? e) e]
+        ;; note this part in the lectures
+        [(fun? e) (closure env e)]
+        [(closure? e) e]
         [(aunit? e) (aunit)]
         [(apair? e)
          (let ([v1 (eval-under-env (apair-e1 e) env)]
@@ -102,7 +104,7 @@
            ;(writeln cur-env)
            (eval-under-env (mlet-body e) cur-env))]
         [(call? e)
-         (if (closure? (call-funexp e))
+         (if (closure? (eval-under-env (call-funexp e) env))
              (letrec ([cur-fun-name (fun-nameopt (closure-fun (call-funexp e)))]
                       [cur-fun-arg-name (fun-formal (closure-fun (call-funexp e)))]
                       [cur-fun-arg-val (eval-under-env (call-actual e) env)]
@@ -149,19 +151,24 @@
       (mlet (car (car lstlst)) (cdr (car lstlst)) (mlet* (cdr lstlst) e2))))
 
   
-(define (ifeq e1 e2 e3 e4)
-  (if (and (int? e1)
-           (int? e2))
-      (if (= (int-num e1) (int-num e2))
-          (ifgreater (add e1 e2) e2 e3 e4)
-          (ifgreater e1 (add e1 e2) e3 e4))
-      (error "not itegers")
-      ))
+; this is not right, consulted
+; https://github.com/JeffTangHoTing/Coursera-programming-language/blob/master/Part-B/HW5.rkt
+;(define (ifeq e1 e2 e3 e4)
+;  (if (and (int? e1)
+;           (int? e2))
+;      (if (= (int-num e1) (int-num e2))
+;          (ifgreater (add e1 e2) e2 e3 e4)
+;          (ifgreater e1 (add e1 e2) e3 e4))
+;      (error "not itegers")
+;      ))
 
+(define (ifeq e1 e2 e3 e4)
+  (mlet "_x" e1 (mlet "_y" e2 (if (equal? (var "_x") (var "_y")) e3 e4))))
 
 ;; Problem 4
 
-(define mupl-map "CHANGE")
+(define (mupl-map cur-fun)
+   cur-fun)
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
