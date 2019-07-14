@@ -73,8 +73,10 @@
         [(apair? e)
          (let ([v1 (eval-under-env (apair-e1 e) env)]
                [v2 (eval-under-env (apair-e2 e) env)])
+           ;(writeln "in pair")
            ;(writeln v1)
            ;(writeln v2)
+           ;(writeln "end pair")
            (apair v1 v2))]
         [(fst? e)
          (let ([v1 (eval-under-env (fst-e e) env)])
@@ -84,7 +86,7 @@
                (error "Not a pair")))]
         [(isaunit? e)
          (let ([v1 (eval-under-env (isaunit-e e) env)])
-           (writeln v1)
+           ;(writeln v1)
            (if (aunit? v1)
                (int 1)
                (int 0)))]
@@ -115,14 +117,14 @@
                                          start-fun-env
                                          (cons (cons cur-fun-name (closure-fun fun-exp)) start-fun-env  )
                                          )])
-                 (writeln "CALLING")
-                 (writeln cur-fun-name)
+               ;(writeln "CALLING")
+               ;(writeln cur-fun-name)
                ;(writeln cur-fun-arg-name)
                ;(writeln fun-arg-val)
                ;(writeln cur-fun-body)
                ;(writeln start-fun-env)
-               (writeln ext-fun-env)
-                 (writeln "")
+               ;(writeln ext-fun-env)
+               ;(writeln "")
                (eval-under-env cur-fun-body ext-fun-env))
              (error "Not a closure!")))]
         [(ifgreater? e)
@@ -170,11 +172,10 @@
 ;; Problem 4
 
 (define mupl-map
-               (fun #f "fx" (
+               (fun "entry" "fx" (
                             fun "map" "lstlst"
-                                (ifaunit (var "lstlst") (var "lstlst")
+                                (ifaunit (var "lstlst") (aunit)
                                     (apair (call (var "fx") (fst (var "lstlst"))) (call (var "map") (snd (var "lstlst")) )) ))))
-
 (define mupl-mapAddN 
   (mlet "map" mupl-map
         "CHANGE (notice map is now in MUPL scope)"))
