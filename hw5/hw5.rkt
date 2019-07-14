@@ -170,12 +170,23 @@
                                          (ifgreater (var "_y") (var "_x") e4 e3)))))
 
 ;; Problem 4
+;; solution
+;; still doesn't work :/
+;;; (define mupl-map
+;;;   (fun "map" "f"
+;;;        (fun #f "xs"
+;;;             (ifaunit (var "xs")
+;;;                      (aunit)
+;;;                      (apair (call (var "f") (fst (var "xs")))
+;;;                             (call (call (var "map") (var "f"))
+;;;                                   (snd (var "xs"))))))))
+
 
 (define mupl-map
                (fun "entry" "fx" (
                             fun "map" "lstlst"
                                 (ifaunit (var "lstlst") (aunit)
-                                    (apair (call (var "fx") (fst (var "lstlst"))) (call (var "map") (snd (var "lstlst")) )) ))))
+                                    (apair (call (var "fx") (fst (var "lstlst"))) (call (call (var "map") (var "fx")) (snd (var "lstlst"))) ) )   )))
 (define mupl-mapAddN 
   (mlet "map" mupl-map
         "CHANGE (notice map is now in MUPL scope)"))

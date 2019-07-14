@@ -1,0 +1,10 @@
+eval-exp: comprehensive test with mupl-length function (Not a closure!) [error]
+eval-exp: recursive function call (Not a closure!) [error]
+mupl-mapAddN: multiple element list (found bad MUPL expression: "CHANGE (notice map is now in MUPL scope)") [error]
+mupl-mapAddN: single element list (found bad MUPL expression: "CHANGE (notice map is now in MUPL scope)") [error]
+mupl-mapAddN: empty list (found bad MUPL expression: "CHANGE (notice map is now in MUPL scope)") [error]
+compute-free-vars: correctly computes free vars [incorrect answer]
+compute-free-vars: no free vars case [incorrect answer]
+eval-under-env-c: correctly filters closure environments [incorrect answer]
+
+Because the auto-grader gave a score above 80, here is the link to a message from a very cute dog: https://drive.google.com/file/d/0B5sUgbs6aDNpWUx4aVhzQXEwWXM/view?pref=2&pli=1
