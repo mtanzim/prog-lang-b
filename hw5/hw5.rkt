@@ -84,7 +84,7 @@
                (error "Not a pair")))]
         [(isaunit? e)
          (let ([v1 (eval-under-env (isaunit-e e) env)])
-           ;(writeln v1)
+           (writeln v1)
            (if (aunit? v1)
                (int 1)
                (int 0)))]
@@ -145,7 +145,7 @@
 ;; Problem 3
 
 (define (ifaunit e1 e2 e3)
-  (if (aunit? e1) e2 e3))
+  (ifgreater (isaunit e1) (int 0) e2 e3 ))
 
 ; needs error checking?
 (define (mlet* lstlst e2)
