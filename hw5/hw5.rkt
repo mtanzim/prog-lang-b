@@ -153,9 +153,7 @@
       e2
       (mlet (car (car lstlst)) (cdr (car lstlst)) (mlet* (cdr lstlst) e2))))
 
-  
-; this is not right, consulted
-; https://github.com/JeffTangHoTing/Coursera-programming-language/blob/master/Part-B/HW5.rkt
+; this is incorrect, need to recursively evaluate subexpressions
 ;(define (ifeq e1 e2 e3 e4)
 ;  (if (and (int? e1)
 ;           (int? e2))
@@ -166,7 +164,8 @@
 ;      ))
 
 (define (ifeq e1 e2 e3 e4)
-  (mlet "_x" e1 (mlet "_y" e2 (if (equal? (var "_x") (var "_y")) e3 e4))))
+  (mlet "_x" e1 (mlet "_y" e2 (ifgreater (var "_x") (var "_y") e4
+                                         (ifgreater (var "_y") (var "_x") e4 e3)))))
 
 ;; Problem 4
 
