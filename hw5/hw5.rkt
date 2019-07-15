@@ -106,16 +106,18 @@
            ;(writeln cur-env)
            (eval-under-env (mlet-body e) cur-env))]
         [(call? e)
-         (let ([fun-exp (eval-under-env (call-funexp e) env)]
-               [fun-arg-val (eval-under-env (call-actual e) env)])    
-           (if (closure? fun-exp)
-               (letrec ([cur-fun-name (fun-nameopt (closure-fun fun-exp))]
-                        [cur-fun-arg-name (fun-formal (closure-fun fun-exp))]
-                        [cur-fun-body (fun-body (closure-fun fun-exp))]
-                        [start-fun-env (cons (cons cur-fun-arg-name fun-arg-val) (closure-env fun-exp))]
-                        [ext-fun-env (if (not cur-fun-name )
+         (let ([cls (eval-under-env (call-funexp e) env)]
+               [arg (eval-under-env (call-actual e) env)])    
+           (if (closure? cls)
+               (letrec (
+                        [fn (closure-fun cls)]
+                        [cur-fun-name (fun-nameopt fn)]
+                        [cur-fun-arg-name (fun-formal fn)]
+                        [cur-fun-body (fun-body fn)]
+                        [start-fun-env (cons (cons cur-fun-arg-name arg) (closure-env cls))]
+                        [ext-fun-env (if (not cur-fun-name)
                                          start-fun-env
-                                         (cons (cons cur-fun-name (closure-fun fun-exp)) start-fun-env  )
+                                         (cons (cons cur-fun-name cls) start-fun-env)
                                          )])
                ;(writeln "CALLING")
                ;(writeln cur-fun-name)
@@ -172,21 +174,21 @@
 ;; Problem 4
 ;; solution
 ;; still doesn't work :/
-;;; (define mupl-map
-;;;   (fun "map" "f"
-;;;        (fun #f "xs"
-;;;             (ifaunit (var "xs")
-;;;                      (aunit)
-;;;                      (apair (call (var "f") (fst (var "xs")))
-;;;                             (call (call (var "map") (var "f"))
-;;;                                   (snd (var "xs"))))))))
-
-
 (define mupl-map
-               (fun "entry" "fx" (
-                            fun "map" "lstlst"
-                                (ifaunit (var "lstlst") (aunit)
-                                    (apair (call (var "fx") (fst (var "lstlst"))) (call (call (var "map") (var "fx")) (snd (var "lstlst"))) ) )   )))
+  (fun "map" "f"
+       (fun #f "xs"
+            (ifaunit (var "xs")
+                     (aunit)
+                     (apair (call (var "f") (fst (var "xs")))
+                            (call (call (var "map") (var "f"))
+                                  (snd (var "xs"))))))))
+
+
+;;; (define mupl-map
+;;;                (fun "entry" "fx" (
+;;;                             fun "map" "lstlst"
+;;;                                 (ifaunit (var "lstlst") (aunit)
+;;;                                     (apair (call (var "fx") (fst (var "lstlst"))) (call (call (var "map") (var "fx")) (snd (var "lstlst"))) ) )   )))
 (define mupl-mapAddN 
   (mlet "map" mupl-map
         "CHANGE (notice map is now in MUPL scope)"))
