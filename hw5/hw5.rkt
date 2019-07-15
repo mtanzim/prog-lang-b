@@ -115,7 +115,7 @@
                         [start-fun-env (cons (cons cur-fun-arg-name fun-arg-val) (closure-env fun-exp))]
                         [ext-fun-env (if (not cur-fun-name )
                                          start-fun-env
-                                         (cons (cons cur-fun-name (closure-fun fun-exp)) start-fun-env  )
+                                         (cons (cons cur-fun-name  fun-exp) start-fun-env  )
                                          )])
                ;(writeln "CALLING")
                ;(writeln cur-fun-name)
@@ -172,21 +172,21 @@
 ;; Problem 4
 ;; solution
 ;; still doesn't work :/
+ (define mupl-map
+   (fun "map" "f"
+        (fun #f "xs"
+             (ifaunit (var "xs")
+                      (aunit)
+                      (apair (call (var "f") (fst (var "xs")))
+                             (call (call (var "map") (var "f"))
+                                   (snd (var "xs"))))))))
+
+
 ;;; (define mupl-map
-;;;   (fun "map" "f"
-;;;        (fun #f "xs"
-;;;             (ifaunit (var "xs")
-;;;                      (aunit)
-;;;                      (apair (call (var "f") (fst (var "xs")))
-;;;                             (call (call (var "map") (var "f"))
-;;;                                   (snd (var "xs"))))))))
-
-
-(define mupl-map
-               (fun "entry" "fx" (
-                            fun "map" "lstlst"
-                                (ifaunit (var "lstlst") (aunit)
-                                    (apair (call (var "fx") (fst (var "lstlst"))) (call (call (var "map") (var "fx")) (snd (var "lstlst"))) ) )   )))
+;;;                (fun "entry" "fx" (
+;;;                             fun "map" "lstlst"
+;;;                                 (ifaunit (var "lstlst") (aunit)
+;;;                                     (apair (call (var "fx") (fst (var "lstlst"))) (call (call (var "map") (var "fx")) (snd (var "lstlst"))) ) )   )))
 (define mupl-mapAddN 
   (mlet "map" mupl-map
         "CHANGE (notice map is now in MUPL scope)"))
