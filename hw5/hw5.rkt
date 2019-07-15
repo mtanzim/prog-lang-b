@@ -23,11 +23,11 @@
 ;; Problem 1
 
 ;;; (define (racketlist->mupllist rkt-lst)
-  ;;; (define (f cur-rkt-list cur-list)
-    ;;; (if (null? cur-rkt-list)
-        ;;; cur-list
-        ;;; (f (cdr cur-rkt-list) (apair (car cur-rkt-list) cur-list))))
-  ;;; (f (reverse rkt-lst) (aunit)) )
+;;; (define (f cur-rkt-list cur-list)
+;;; (if (null? cur-rkt-list)
+;;; cur-list
+;;; (f (cdr cur-rkt-list) (apair (car cur-rkt-list) cur-list))))
+;;; (f (reverse rkt-lst) (aunit)) )
 
 (define (racketlist->mupllist rkt-lst)
   (cond [(null? rkt-lst) (aunit)]
@@ -98,9 +98,9 @@
                (error "Not a pair")))]
         [(mlet? e)
          (letrec ([cur-var (mlet-var e)]
-               [var-val (eval-under-env (mlet-e e) env)]
-               [cur-env (cons (cons cur-var var-val) env )]
-               )
+                  [var-val (eval-under-env (mlet-e e) env)]
+                  [cur-env (cons (cons cur-var var-val) env )]
+                  )
            ;(writeln cur-var)
            ;(writeln var-val)
            ;(writeln cur-env)
@@ -117,26 +117,26 @@
                                          start-fun-env
                                          (cons (cons cur-fun-name  fun-exp) start-fun-env  )
                                          )])
-               ;(writeln "CALLING")
-               ;(writeln cur-fun-name)
-               ;(writeln cur-fun-arg-name)
-               ;(writeln fun-arg-val)
-               ;(writeln cur-fun-body)
-               ;(writeln start-fun-env)
-               ;(writeln ext-fun-env)
-               ;(writeln "")
-               (eval-under-env cur-fun-body ext-fun-env))
-             (error "Not a closure!")))]
+                 ;(writeln "CALLING")
+                 ;(writeln cur-fun-name)
+                 ;(writeln cur-fun-arg-name)
+                 ;(writeln fun-arg-val)
+                 ;(writeln cur-fun-body)
+                 ;(writeln start-fun-env)
+                 ;(writeln ext-fun-env)
+                 ;(writeln "")
+                 (eval-under-env cur-fun-body ext-fun-env))
+               (error "Not a closure!")))]
         [(ifgreater? e)
          (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
-              [v2 (eval-under-env (ifgreater-e2 e) env)])
-              ;(writeln v1)
-              ;(writeln v2)
-              (if (and (int? v1)
+               [v2 (eval-under-env (ifgreater-e2 e) env)])
+           ;(writeln v1)
+           ;(writeln v2)
+           (if (and (int? v1)
                     (int? v2))
                (if (> (int-num v1) (int-num v2))
                    (eval-under-env (ifgreater-e3 e) env)
-                    (eval-under-env (ifgreater-e4 e) env))
+                   (eval-under-env (ifgreater-e4 e) env))
                (error "MUPL if-greater applied to non-number")))]
         [#t (error (format "bad MUPL expression: ~v" e))]))
 
@@ -171,14 +171,14 @@
 
 
 (define mupl-map
-                (fun "map" "fx"
-                             (fun #f "lstlst"
-                                 (ifaunit (var "lstlst") 
-                                    (aunit)
-                                    (apair 
-                                        (call (var "fx") (fst (var "lstlst"))) 
-                                        (call (call (var "map") (var "fx")) 
-                                            (snd (var "lstlst"))))))))
+  (fun "map" "fx"
+       (fun #f "lstlst"
+            (ifaunit (var "lstlst") 
+                     (aunit)
+                     (apair 
+                      (call (var "fx") (fst (var "lstlst"))) 
+                      (call (call (var "map") (var "fx")) 
+                            (snd (var "lstlst"))))))))
 (define mupl-mapAddN 
   (mlet "map" mupl-map
         (fun "mapN" "n"
