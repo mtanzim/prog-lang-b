@@ -1,3 +1,4 @@
 *compiled*
-*.rkt*
-
+*.rkt~
+*.rkt#
+*_hw5sol.rkt
